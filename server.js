@@ -1,3 +1,13 @@
+/*
+NODE SETUP
+1. make sure server.js and package.json are in the same directory
+2. from the same directory run the command 'npm install'. This downloads all the dependencies
+for the project that are listed in package.json
+3. Make sure you have a MongoDb server up and running by runnning the command 'mongod'
+4. Finally run the command 'node server.js' this will spin up a node server on port 8080
+where the url is localhost:8080
+*/
+
 
 // call the packages we need
 var express    = require('express');
@@ -28,7 +38,7 @@ var options = {
 	}
 }
 
-
+//============================================================================
 /*
 RESTful API
 ==============
@@ -37,6 +47,9 @@ RESTful API
 3. write data to mongoDB
 =============================
 */
+//this is the api you will use in the Android app. The url for it will look the following way.
+//http://localhost:8080/getData?username=mazzolaamy@cox.net&password=heartware
+//This is a POST request
 app.post('/getData', function(req, res){
 	
 	//parse request url and grab the query parameters
@@ -54,19 +67,21 @@ app.post('/getData', function(req, res){
 		//RESTful api call for movement
 		request(options, function(error, response, body)
 		{
+			//check to make sure jawbone api call is successful
 			if(!error && response.statusCode == 200)
 			{
+				//function used for inserting data into mongo
 				var insertDocuments = function(db, callback) {
 				  // Get the documents collection
 				  var collection = db.collection('document2');
-				  // Insert some documents
+				  // Insert some documents. JSON.parse(body) contains the jawbone data
 				  collection.insert(JSON.parse(body), function(err, result) {
 				    assert.equal(err, null);
 				    callback(result);
 				  });
 
 				}
-
+				//actually connects to mongodb and calls the insertDocuments function
 				MongoClient.connect(dbUrl, function(err, db){
 					assert.equal(null, err);
 					console.log("connected to Db");
@@ -75,10 +90,11 @@ app.post('/getData', function(req, res){
 						db.close();
 					});
 				});
-
+				//send back a success response to the client calling 
 				res.send(201);
 			}
 			else
+				//jawbone api error. Send error back to client
 				res.send(400);
 		});
 	}
