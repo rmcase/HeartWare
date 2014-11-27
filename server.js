@@ -1,7 +1,7 @@
 /*
 NODE SETUP
 1. make sure server.js and package.json are in the same directory
-2. from the same directory run the command 'npm install'. This downloads all the dependencies
+2. from the same directory run the command 'sudo npm install'. This downloads all the dependencies
 for the project that are listed in package.json
 3. Make sure you have a MongoDb server up and running by runnning the command 'mongod'
 4. Finally run the command 'node server.js' this will spin up a node server on port 8080
