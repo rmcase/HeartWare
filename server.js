@@ -49,7 +49,7 @@ RESTful API
 */
 //this is the api you will use in the Android app. The url for it will look the following way.
 //http://localhost:8080/getData?username=mazzolaamy@cox.net&password=heartware
-//This is a POST request
+//This is a GET request 
 app.get('/getData', function(req, res){
 	
 	//parse request url and grab the query parameters
